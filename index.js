@@ -6,7 +6,7 @@ const app = express()
 app.use(express.json())
 app.use("/app/v1/petshop", router)
 
-const porta = process.env.PORT || 3000
+const porta =  3000
 
 database.db.sync()
     .then(() => {

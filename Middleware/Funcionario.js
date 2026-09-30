@@ -1,16 +1,41 @@
 import jwt from "jsonwebtoken"
+import Funcionario from "../Model/Funcionario.js"
 
-const segredo = "I s2 s1c3e6"
-export default async function autMiddleware(req, res, next){a
-    try{
-        const token = req.headers['authorization']
-        if(!token){
-            throw new Error()
+const segredo = process.env.JWT_SECRET || "M3uS3gr3d0"
+
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === "production") {
+    throw new Error("JWT_SECRET deve ser configurado em produção")
+}
+
+export default function authMiddleware(req, res, next) {
+    const authorization = req.headers.authorization
+    const token = authorization?.startsWith("Bearer ")
+        ? authorization.slice(7)
+        : authorization
+
+    if (!token) {
+        return res.status(401).send({ message: "Token não informado" })
+    }
+
+    try {
+        req.session = jwt.verify(token, segredo)
+        return next()
+    } catch {
+        return res.status(401).send({ message: "Token inválido ou expirado" })
+    }
+}
+
+export async function authOuCadastroInicial(req, res, next) {
+    if (req.headers.authorization) {
+        return authMiddleware(req, res, next)
+    }
+
+    try {
+        if (await Funcionario.count() === 0) {
+            return next()
         }
-        const decoded = jwt.verify(token, segredo)
-        req.session = decoded
-        next()
-    } catch (error){
-        res.status(400).send({ message : "Usuário ou Senha inválidos"})
+        return res.status(401).send({ message: "Token não informado" })
+    } catch (error) {
+        return next(error)
     }
 }

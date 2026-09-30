@@ -6,11 +6,15 @@ const app = express()
 app.use(express.json())
 app.use("/app/v1/petshop", router)
 
-database.db.sync({force: true}).then((_)=>{
-    app.listen(3000,()=>{
-        console.log("Servidor rodando na porta 3000")
+const porta = process.env.PORT || 3000
+
+database.db.sync()
+    .then(() => {
+        app.listen(porta, () => {
+            console.log(`Servidor rodando na porta ${porta}`)
+        })
     })
-})
-.catch((e) => {
-    console.log(e)
-})
+    .catch((error) => {
+        console.error("Não foi possível conectar ao banco de dados:", error.message)
+        process.exitCode = 1
+    })

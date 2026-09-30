@@ -1,33 +1,46 @@
-import funcionario from '../Model/Funcionario.js'
+import Funcionario from "../Model/Funcionario.js"
+
 class RepositoryFuncionario {
-    async Find (){
-        const funcionarios = await funcionario.findAll()
-        return funcionarios
+    async Find() {
+        return Funcionario.findAll({ attributes: { exclude: ["senha"] } })
     }
-    async FindById (id){
-        const funcionariodetalhe = await funcionario.findByPk(id)
-        return funcionariodetalhe
+
+    async FindById(id) {
+        return Funcionario.findByPk(id, { attributes: { exclude: ["senha"] } })
     }
-    async Create (nome, telefone){
-        const create = await funcionario.create({ nome, telefone })
-        return create
+
+    async FindByNome(nome) {
+        return Funcionario.findOne({ where: { nome } })
     }
-    async Update (id, nome, telefone){
-        const update = await funcionario.findByPk(id)
-        if(!update){
-            throw new Error("Funcionario não encontrado")
+
+    async Create(nome, senha) {
+        const funcionario = await Funcionario.create({ nome, senha })
+        const resultado = funcionario.toJSON()
+        delete resultado.senha
+        return resultado
+    }
+
+    async Update(id, dados) {
+        const funcionario = await Funcionario.findByPk(id)
+        if (!funcionario) {
+            throw new Error("Funcionário não encontrado")
         }
-        update.nome = nome
-        update.telefone = telefone
-        await update.save()
+
+        await funcionario.update(dados)
+        const resultado = funcionario.toJSON()
+        delete resultado.senha
+        return resultado
     }
-    async Delete (id){
-        const funcionariodelet = await funcionario.findByPk(id)
-        if(!funcionariodelet){
-            throw new Error("Funcionario não encontrado")
+
+    async Delete(id) {
+        const funcionario = await Funcionario.findByPk(id)
+        if (!funcionario) {
+            throw new Error("Funcionário não encontrado")
         }
-        await funcionariodelet.destroy()
-        return funcionariodelet
+
+        await funcionario.destroy()
+        return funcionario
     }
 }
+
 export default new RepositoryFuncionario()

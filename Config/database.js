@@ -1,16 +1,12 @@
 import { Sequelize } from "sequelize"
-class Database {
-    constructor() {
-        this.init()
-    }
-init(){
-    this.db = new Sequelize({
-        database: "petshop",
-        host: "localhost",
-        username: "root",
-        password: "",
-        dialect: "mysql"
-    })
-}
-}
-export default new Database()
+
+const database = new Sequelize({
+    database: process.env.DB_NAME || "petshop",
+    host: process.env.DB_HOST || "localhost",
+    username: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "",
+    dialect: "mysql",
+    logging: false
+})
+
+export default { db: database }

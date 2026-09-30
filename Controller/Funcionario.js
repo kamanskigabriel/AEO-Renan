@@ -1,60 +1,63 @@
-import Funcionario from "../Service/Funcionario.js"
+import serviceFuncionario from "../Service/Funcionario.js"
 
-class Controllerfuncionario {
-    async buscar(_,res){
+class ControllerFuncionario {
+    async Buscar(_req, res) {
         try {
-            console.log(req.session)
-            const funcionario = await ServiceFuncionario.Buscar()
-            res.status(200).send({message : funcionario})
+            const funcionarios = await serviceFuncionario.Buscar()
+            res.status(200).send({ funcionarios })
         } catch (error) {
-            res.status(500).send({message: error.message})
+            res.status(500).send({ message: error.message })
         }
     }
-    async Detalhe(req, res){
+
+    async Detalhe(req, res) {
         try {
-            const id=req.params.id
-            const funcionario = await ServiceFuncionario.Detalhe(id)
-            res.status(200).send({message : funcionario})
+            const funcionario = await serviceFuncionario.Detalhe(req.params.id)
+            res.status(200).send({ funcionario })
         } catch (error) {
-            res.status(500).send({message : error.massage})
+            res.status(404).send({ message: error.message })
         }
     }
-    async Criar (req, res){
+
+    async Criar(req, res) {
         try {
-            const  {nome, senha} = req.body
-            await ServiceFuncionario.Criar(nome, senha)
-            res.status(201).send ({message : "Funcionario a mais"})
+            const { nome, senha } = req.body
+            const funcionario = await serviceFuncionario.Criar(nome, senha)
+            res.status(201).send({ funcionario })
         } catch (error) {
-            res.status(500).send({message: error.message})
+            res.status(400).send({ message: error.message })
         }
     }
-    async Alterar(req,res){
+
+    async Alterar(req, res) {
         try {
-            const {nome, senha} = req.body
-            const id = req.session.id
-            await ServiceFuncionario.Alterar(id,nome,senha)
-            res.status(201).send({message: "Cadastro feito com sucesso"})
+            const { nome, senha } = req.body
+            const funcionario = await serviceFuncionario.Alterar(req.params.id, nome, senha)
+            res.status(200).send({ funcionario })
         } catch (error) {
-            res.status(500).send({message : error.messages})      
+            res.status(400).send({ message: error.message })
         }
     }
-    async Deletar (req,res){
+
+    async Deletar(req, res) {
         try {
-            const identificador = req.params.id
-            await ServiceFuncionario.Deletar(identificador)
-            res.status(204).send({message:"Deletado com sucesso"})
+            await serviceFuncionario.Deletar(req.params.id)
+            res.status(204).end()
         } catch (error) {
-            res.status(500).send({message: error.message})
+            res.status(404).send({ message: error.message })
         }
     }
-    async Login (req,res){
+
+    async Login(req, res) {
         try {
-             const { nome, senha } = req.body
-            const token = await ServiceAtendimento.Login(nome, senha)
-            res.status(200).send({token})
+            const { nome, senha } = req.body
+            const token = await serviceFuncionario.Login(nome, senha)
+            res.status(200).send({ token })
         } catch (error) {
-             res.status(500).send({ mensage: error.message }) 
+            res.status(401).send({ message: error.message })
         }
     }
 }
-export default new Controllerfuncionario()
+
+export const controllerFuncionario = new ControllerFuncionario()
+export default controllerFuncionario

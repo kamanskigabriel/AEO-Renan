@@ -1,20 +1,20 @@
-import database from '../Config/database.js'
+import { DataTypes } from "sequelize"
+import database from "../Config/database.js"
 
-class Funcionario {
-    constructor() {
-        this.model = database.db.define("Funcionario",{
-            id: {
-                type : database.db.Sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true
-            },
-            nome: {
-                type : database.db.Sequelize.STRING,
-            },
-            senha: {
-                type : database.db.Sequelize.STRING,
-            }
-        })
+const Funcionario = database.db.define("Funcionario", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nome: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    senha: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-}
-export default new Funcionario()
+})
+
+export default Funcionario

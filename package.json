@@ -1,0 +1,26 @@
+{
+  "name": "aeo-renan",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/kamanskigabriel/AEO-Renan#readme",
+  "bugs": {
+    "url": "https://github.com/kamanskigabriel/AEO-Renan/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamanskigabriel/AEO-Renan.git"
+  },
+  "license": "ISC",
+  "author": "Gabriel Kamanski | Joao Mello | Thiago Pereira",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.24.5",
+    "sequelize": "^6.37.8"
+  }
+}

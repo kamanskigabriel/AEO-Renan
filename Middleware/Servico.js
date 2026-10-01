@@ -6,7 +6,7 @@ if (!process.env.JWT_SECRET && process.env.NODE_ENV === "production") {
     throw new Error("JWT_SECRET deve ser configurado em produção")
 }
 
-export default function authMiddleware(req, res, next) {
+export default function authServico(req, res, next) {
     const authorization = req.headers.authorization
     const token = authorization?.startsWith("Bearer ")
         ? authorization.slice(7)

@@ -59,5 +59,4 @@ class ControllerFuncionario {
     }
 }
 
-export const controllerFuncionario = new ControllerFuncionario()
-export default controllerFuncionario
+export default new ControllerFuncionario()

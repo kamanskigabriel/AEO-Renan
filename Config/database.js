@@ -6,7 +6,6 @@ const database = new Sequelize({
     username: "root",
     password: "",
     dialect: "mysql",
-    logging: false,
 })
 
 export default { db: database }

@@ -13,13 +13,13 @@ class RepositoryServico {
         return Servico.create({ nome, descricao, preco })
     }
 
-    async Update(id, dados) {
+    async Update(id, nome, descricao, preco) {
         const servico = await Servico.findByPk(id)
         if (!servico) {
             throw new Error("Serviço não encontrado")
         }
 
-        await servico.update(dados)
+        await servico.update({ nome, descricao, preco })
         return servico
     }
 

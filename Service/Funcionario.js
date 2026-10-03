@@ -62,7 +62,7 @@ class ServiceFuncionario {
         }
 
         return jwt.sign({ id: funcionario.id, nome: funcionario.nome }, segredo, {
-            expiresIn: "1h"
+            expiresIn: 60*60
         })
     }
 }

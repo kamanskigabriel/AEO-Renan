@@ -4,10 +4,6 @@ import repositoryFuncionario from "../Repository/Funcionario.js"
 
 const segredo = "M3uS3gr3d0"
 
-if (!process.env.JWT_SECRET && process.env.NODE_ENV === "production") {
-    throw new Error("JWT_SECRET deve ser configurado em produção")
-}
-
 class ServiceFuncionario {
     async Buscar() {
         return repositoryFuncionario.Find()

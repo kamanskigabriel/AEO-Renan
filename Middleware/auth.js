@@ -2,10 +2,6 @@ import jwt from "jsonwebtoken"
 
 const segredo = "M3uS3gr3d0"
 
-if (!process.env.JWT_SECRET && process.env.NODE_ENV === "production") {
-    throw new Error("JWT_SECRET deve ser configurado em produção")
-}
-
 export default function authMiddleware(req, res, next) {
     const authorization = req.headers.authorization
     const token = authorization?.startsWith("Bearer ")

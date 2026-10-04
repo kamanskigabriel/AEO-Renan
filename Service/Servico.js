@@ -29,23 +29,11 @@ class ServiceServico {
     }
 
     async Alterar(id, nome, descricao, preco) {
-        if (!id) {
-            throw new Error("Id não informado")
+        if (!id || !nome || !descricao || preco === undefined ) {
+            throw new Error("Favor informar os dados")
         }
-        if (!nome && !descricao && (preco === undefined || preco === null || preco === "")) {
-            throw new Error("Informe ao menos um campo para alterar")
-        }
-
-        const dados = {}
-        if (nome) dados.nome = nome
-        if (descricao) dados.descricao = descricao
-        if (preco !== undefined && preco !== null && preco !== "") {
-            if (!Number.isFinite(Number(preco)) || Number(preco) < 0) {
-                throw new Error("Preço inválido")
-            }
-            dados.preco = preco
-        }
-        return repositoryServico.Update(id, dados)
+        const servicoAtualizado = await repositoryServico.Update(id, nome, descricao, preco)
+        return servicoAtualizado
     }
 
     async Deletar(id) {
